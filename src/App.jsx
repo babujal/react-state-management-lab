@@ -85,20 +85,25 @@ function App() {
   // })
 
   return (
-    <ul>
+    // <ul>
+    <>
       {zombieFighters.map((zombie, index) => {
         return (
           <>
-          <li><img src={zombie.img} alt="" /></li>
-          <li key={index}>{zombie.name}</li>
-          <li key={index}>{zombie.price}</li>
-          <li key={index}>{zombie.strength}</li>
-          <li key={index}>{zombie.agility}</li>
+          <ul>
+            <li><img src={zombie.img} alt="" /></li>
+            <li key={index}>{zombie.name}</li>
+            <li key={index}>{zombie.price}</li>
+            <li key={index}>{zombie.strength}</li>
+            <li key={index}>{zombie.agility}</li>
+            <button>add</button>
+          </ul>
           </>
         )
       }
       )}
-    </ul>
+    {/* // </ul> */}
+    </>
   );
 }
 
