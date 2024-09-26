@@ -93,9 +93,9 @@ function App() {
           <ul>
             <li><img src={zombie.img} alt="" /></li>
             <li key={index}>{zombie.name}</li>
-            <li key={index}>{zombie.price}</li>
-            <li key={index}>{zombie.strength}</li>
-            <li key={index}>{zombie.agility}</li>
+            <li key={index}>Price: {zombie.price}</li>
+            <li key={index}>Strength: {zombie.strength}</li>
+            <li key={index}>Agility: {zombie.agility}</li>
             <button>add</button>
           </ul>
           </>
