@@ -80,15 +80,15 @@ function App() {
     },
   ]);
 
-  // const zombieList = zombieFighters.map((zombie, i) => {
-  //   return <ZombielistItem key={i} {...zombie} />
-  // })
-
   const handleAddFighter = (zombieName) => {
-    const added = zombieFighters.filter(zombie => zombie.name === zombieName);
-    console.log('Zoombie added:', added);
-    setTeam([...team, added]);
-    console.log('Team:', team)
+    const searchAddition = zombieFighters.filter(zombie => zombie.name === zombieName);
+    if(searchAddition){
+      setTeam([...team, ...searchAddition]);
+      console.log('Zoombie To Add:', ...searchAddition);
+      console.log('Team:', team)
+    }else{
+      console.log('No added yet')
+    }
   };
 
   return (
@@ -108,6 +108,7 @@ function App() {
         )
       }
       )}
+      <p>This is the team:{console.log('This is the team:', team)}</p>
     </>
   );
 }
