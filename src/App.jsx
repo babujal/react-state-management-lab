@@ -84,25 +84,30 @@ function App() {
   //   return <ZombielistItem key={i} {...zombie} />
   // })
 
+  const handleAddFighter = (zombieName) => {
+    const added = zombieFighters.filter(zombie => zombie.name === zombieName);
+    console.log('Zoombie added:', added);
+    setTeam([...team, added]);
+    console.log('Team:', team)
+  };
+
   return (
-    // <ul>
     <>
       {zombieFighters.map((zombie, index) => {
         return (
           <>
-          <ul>
-            <li><img src={zombie.img} alt="" /></li>
-            <li key={index}>{zombie.name}</li>
-            <li key={index}>Price: {zombie.price}</li>
-            <li key={index}>Strength: {zombie.strength}</li>
-            <li key={index}>Agility: {zombie.agility}</li>
-            <button>add</button>
-          </ul>
+            <ul key={zombie.name}>
+              <li><img src={zombie.img} alt="" /></li>
+              <li>{zombie.name}</li>
+              <li>Price: {zombie.price}</li>
+              <li>Strength: {zombie.strength}</li>
+              <li>Agility: {zombie.agility}</li>
+              <button onClick={() => handleAddFighter(zombie.name)}>add</button>
+            </ul>
           </>
         )
       }
       )}
-    {/* // </ul> */}
     </>
   );
 }
