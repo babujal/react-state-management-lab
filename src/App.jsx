@@ -7,6 +7,7 @@ function App() {
 
   const [team, setTeam] = useState([]);
   const [money, setMoney] = useState(100);
+  const [totalStrength, setTotalStrength] = useState(0)
   const [zombieFighters, setZombieFighters] = useState([
     {
       name: 'Survivor',
@@ -80,30 +81,65 @@ function App() {
     },
   ]);
 
+  const handleDisplayTeam = () => {
+    if (!team) {
+      return (
+        <p>Pick some team members</p>
+      )
+    }
+  }
+
   const handleAddFighter = (zombieName) => {
     const searchAddition = zombieFighters.filter(zombie => zombie.name === zombieName);
-    if(searchAddition){
+    if (searchAddition[0].price > money) {
+      console.log('Not enough money');
+    } else {
+      console.log('Price:', searchAddition[0].price)
+      console.log('money', money)
+      setMoney(money - searchAddition[0].price);
       setTeam([...team, ...searchAddition]);
-      console.log('Zoombie To Add:', ...searchAddition);
-      console.log('Team:', team)
-    }else{
-      console.log('No added yet')
-    }
+    };
   };
 
   return (
     <>
+      <section className='teamAndSponsorData'>
+        <section className='subSection'>
+          <h1>Zombie Fighters</h1>
+          <h2>money: {money}</h2>
+          <h2>Team Strength: { }</h2>
+          <h2>Team Agiliti: { }</h2>
+        </section>
+      </section>
+      <section id='teamDisplay'>
+        <h2>Team: {team.length === 0 ? (<p><small>Pick some team members</small></p>) : team.map((el, i) => {
+          return (
+            <>
+              <ul className='ulOne' key={el.name}>
+                <li className='teamLi'><img src={el.img} alt="" /></li>
+                <li className='teamLi'>{el.name}</li>
+                <li className='teamLi'>Price: {el.price}</li>
+                <li className='teamLi'>Strength: {el.strength}</li>
+                <li className='teamLi'>Agility: {el.agility}</li>
+              </ul>
+            </>
+          )
+        })}</h2>
+      </section>
+
       {zombieFighters.map((zombie, index) => {
         return (
           <>
-            <ul key={zombie.name}>
-              <li><img src={zombie.img} alt="" /></li>
-              <li>{zombie.name}</li>
-              <li>Price: {zombie.price}</li>
-              <li>Strength: {zombie.strength}</li>
-              <li>Agility: {zombie.agility}</li>
-              <button onClick={() => handleAddFighter(zombie.name)}>add</button>
-            </ul>
+            <section>
+              <ul key={zombie.name}>
+                <li><img src={zombie.img} alt="" /></li>
+                <li>{zombie.name}</li>
+                <li>Price: {zombie.price}</li>
+                <li>Strength: {zombie.strength}</li>
+                <li>Agility: {zombie.agility}</li>
+                <button onClick={() => handleAddFighter(zombie.name)}>add</button>
+              </ul>
+            </section >
           </>
         )
       }

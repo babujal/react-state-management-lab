@@ -1,3 +1,30 @@
+.teamAndSponsorData{
+  display: flex;
+  width: 100vw;
+}
+
+/* .fighters{
+  display: block;
+} */
+
+.teamLi{
+  font-size: small;
+}
+
+#teamDisplay{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100vw;
+}
+
+/* .ulOne{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 100vw;
+} */
+
 #root{
   display: flex;
   flex-wrap: wrap;
