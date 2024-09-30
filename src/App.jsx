@@ -81,12 +81,9 @@ function App() {
     },
   ]);
 
-  const handleDisplayTeam = () => {
-    if (!team) {
-      return (
-        <p>Pick some team members</p>
-      )
-    }
+  const handleTotalStrength = () => {
+    const teamStrength = team.reduce((total, member) => total + member.strength, 0);
+    setTotalStrength(teamStrength)
   }
 
   const handleAddFighter = (zombieName) => {
@@ -98,6 +95,7 @@ function App() {
       console.log('money', money)
       setMoney(money - searchAddition[0].price);
       setTeam([...team, ...searchAddition]);
+      handleTotalStrength()
     };
   };
 
@@ -107,7 +105,7 @@ function App() {
         <section className='subSection'>
           <h1>Zombie Fighters</h1>
           <h2>money: {money}</h2>
-          <h2>Team Strength: { }</h2>
+          <h2>Team Strength: {totalStrength}</h2>
           <h2>Team Agiliti: { }</h2>
         </section>
       </section>
