@@ -8,6 +8,7 @@ function App() {
   const [team, setTeam] = useState([]);
   const [money, setMoney] = useState(100);
   const [totalStrength, setTotalStrength] = useState(0)
+  const [totalAgility, setTotalAgility] = useState(0)
   const [zombieFighters, setZombieFighters] = useState([
     {
       name: 'Survivor',
@@ -81,9 +82,16 @@ function App() {
     },
   ]);
 
-  const handleTotalStrength = () => {
-    const teamStrength = team.reduce((total, member) => total + member.strength, 0);
+  //Ask about why this setTotalStrength iif I don't add the newMember, the state var has the previous value.
+  //Even when the method is call after setTeam with new memeber has happened in line 101.
+  const handleTotalStrength = (newMember) => {
+    const teamStrength = team.reduce((total, member) => total + member.strength, 0) + newMember;
     setTotalStrength(teamStrength)
+  }
+
+  const handleTotalAgility = (newMember) => {
+    const teamStrength = team.reduce((total, member) => total + member.agility, 0) + newMember;
+    setTotalAgility(teamStrength)
   }
 
   const handleAddFighter = (zombieName) => {
@@ -91,12 +99,20 @@ function App() {
     if (searchAddition[0].price > money) {
       console.log('Not enough money');
     } else {
-      console.log('Price:', searchAddition[0].price)
-      console.log('money', money)
+      console.log('Price:', searchAddition[0].price);
+      console.log('money', money);
       setMoney(money - searchAddition[0].price);
       setTeam([...team, ...searchAddition]);
-      handleTotalStrength()
+      handleTotalStrength(searchAddition[0].strength);
+      handleTotalAgility(searchAddition[0].agility);
     };
+  };
+
+  const handleRemoveFighter = (zombieName) => {
+    const membersLeft = team.filter(el => el.name !== zombieName);
+    console.log('Team left', membersLeft)
+    setTeam([...membersLeft]);
+    console.log('Updated Team:', team)
   };
 
   return (
@@ -106,7 +122,7 @@ function App() {
           <h1>Zombie Fighters</h1>
           <h2>money: {money}</h2>
           <h2>Team Strength: {totalStrength}</h2>
-          <h2>Team Agiliti: { }</h2>
+          <h2>Team Agiliti: {totalAgility}</h2>
         </section>
       </section>
       <section id='teamDisplay'>
@@ -119,6 +135,7 @@ function App() {
                 <li className='teamLi'>Price: {el.price}</li>
                 <li className='teamLi'>Strength: {el.strength}</li>
                 <li className='teamLi'>Agility: {el.agility}</li>
+                <button onClick={() => handleRemoveFighter(el.name)}>Remove</button>
               </ul>
             </>
           )
