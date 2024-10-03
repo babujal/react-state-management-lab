@@ -1,7 +1,81 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+
+
+const initialZombies = [
+  {
+    name: 'Survivor',
+    price: 12,
+    strength: 6,
+    agility: 4,
+    img: 'https://via.placeholder.com/150/92c952',
+  },
+  {
+    name: 'Scavenger',
+    price: 10,
+    strength: 5,
+    agility: 5,
+    img: 'https://via.placeholder.com/150/771796',
+  },
+  {
+    name: 'Shadow',
+    price: 18,
+    strength: 7,
+    agility: 8,
+    img: 'https://via.placeholder.com/150/24f355',
+  },
+  {
+    name: 'Tracker',
+    price: 14,
+    strength: 7,
+    agility: 6,
+    img: 'https://via.placeholder.com/150/d32776',
+  },
+  {
+    name: 'Sharpshooter',
+    price: 20,
+    strength: 6,
+    agility: 8,
+    img: 'https://via.placeholder.com/150/1ee8a4',
+  },
+  {
+    name: 'Medic',
+    price: 15,
+    strength: 5,
+    agility: 7,
+    img: 'https://via.placeholder.com/150/66b7d2',
+  },
+  {
+    name: 'Engineer',
+    price: 16,
+    strength: 6,
+    agility: 5,
+    img: 'https://via.placeholder.com/150/56acb2',
+  },
+  {
+    name: 'Brawler',
+    price: 11,
+    strength: 8,
+    agility: 3,
+    img: 'https://via.placeholder.com/150/8985dc',
+  },
+  {
+    name: 'Infiltrator',
+    price: 17,
+    strength: 5,
+    agility: 9,
+    img: 'https://via.placeholder.com/150/392537',
+  },
+  {
+    name: 'Leader',
+    price: 22,
+    strength: 7,
+    agility: 6,
+    img: 'https://via.placeholder.com/150/602b9e',
+  },
+]
 
 function App() {
 
@@ -9,110 +83,55 @@ function App() {
   const [money, setMoney] = useState(100);
   const [totalStrength, setTotalStrength] = useState(0)
   const [totalAgility, setTotalAgility] = useState(0)
-  const [zombieFighters, setZombieFighters] = useState([
-    {
-      name: 'Survivor',
-      price: 12,
-      strength: 6,
-      agility: 4,
-      img: 'https://via.placeholder.com/150/92c952',
-    },
-    {
-      name: 'Scavenger',
-      price: 10,
-      strength: 5,
-      agility: 5,
-      img: 'https://via.placeholder.com/150/771796',
-    },
-    {
-      name: 'Shadow',
-      price: 18,
-      strength: 7,
-      agility: 8,
-      img: 'https://via.placeholder.com/150/24f355',
-    },
-    {
-      name: 'Tracker',
-      price: 14,
-      strength: 7,
-      agility: 6,
-      img: 'https://via.placeholder.com/150/d32776',
-    },
-    {
-      name: 'Sharpshooter',
-      price: 20,
-      strength: 6,
-      agility: 8,
-      img: 'https://via.placeholder.com/150/1ee8a4',
-    },
-    {
-      name: 'Medic',
-      price: 15,
-      strength: 5,
-      agility: 7,
-      img: 'https://via.placeholder.com/150/66b7d2',
-    },
-    {
-      name: 'Engineer',
-      price: 16,
-      strength: 6,
-      agility: 5,
-      img: 'https://via.placeholder.com/150/56acb2',
-    },
-    {
-      name: 'Brawler',
-      price: 11,
-      strength: 8,
-      agility: 3,
-      img: 'https://via.placeholder.com/150/8985dc',
-    },
-    {
-      name: 'Infiltrator',
-      price: 17,
-      strength: 5,
-      agility: 9,
-      img: 'https://via.placeholder.com/150/392537',
-    },
-    {
-      name: 'Leader',
-      price: 22,
-      strength: 7,
-      agility: 6,
-      img: 'https://via.placeholder.com/150/602b9e',
-    },
-  ]);
+  const [zombieFighters, setZombieFighters] = useState(initialZombies);
 
-  //Ask about why this setTotalStrength iif I don't add the newMember, the state var has the previous value.
-  //Even when the method is call after setTeam with new memeber has happened in line 101.
-  const handleTotalStrength = (newMember) => {
-    const teamStrength = team.reduce((total, member) => total + member.strength, 0) + newMember;
+  useEffect( () => {
+    if(team.length){
+      handleTotalStrength();
+      handleTotalAgility();
+    }else{
+      setTotalStrength(0)
+      setTotalAgility(0)
+    }
+  }, [team])
+
+  const handleTotalStrength = () => {
+    console.log(team)
+    const teamStrength = team.reduce((total, member) => total + member.strength, 0);
+    console.log(`Team strength ${teamStrength}`)
     setTotalStrength(teamStrength)
   }
 
-  const handleTotalAgility = (newMember) => {
-    const teamStrength = team.reduce((total, member) => total + member.agility, 0) + newMember;
+  const handleTotalAgility = () => {
+    const teamStrength = team.reduce((total, member) => total + member.agility, 0);
     setTotalAgility(teamStrength)
   }
 
+  const findZombie = (zombieName) => {
+    return initialZombies.find(zombie => zombie.name === zombieName)
+  }
+
+  const getUpdatedZombieList = (arr, zombieName) => {
+    return arr.filter(el => el.name !== zombieName);
+  };
+
   const handleAddFighter = (zombieName) => {
-    const searchAddition = zombieFighters.filter(zombie => zombie.name === zombieName);
-    if (searchAddition[0].price > money) {
+    const selectedZombie = findZombie(zombieName)
+    const newZombieFighters = getUpdatedZombieList(zombieFighters, zombieName)
+    if (selectedZombie.price > money) {
       console.log('Not enough money');
     } else {
-      console.log('Price:', searchAddition[0].price);
-      console.log('money', money);
-      setMoney(money - searchAddition[0].price);
-      setTeam([...team, ...searchAddition]);
-      handleTotalStrength(searchAddition[0].strength);
-      handleTotalAgility(searchAddition[0].agility);
+      setMoney(money - selectedZombie.price);
+      setTeam([...team, selectedZombie]);
+      setZombieFighters(newZombieFighters)
     };
   };
 
   const handleRemoveFighter = (zombieName) => {
-    const membersLeft = team.filter(el => el.name !== zombieName);
-    console.log('Team left', membersLeft)
-    setTeam([...membersLeft]);
-    console.log('Updated Team:', team)
+    const selectedZombie = findZombie(zombieName)
+    const membersLeft = getUpdatedZombieList(team, zombieName)
+    setTeam(membersLeft);
+    setZombieFighters([...zombieFighters, selectedZombie])
   };
 
   return (
